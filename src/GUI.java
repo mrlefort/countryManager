@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Vector;
@@ -12,6 +13,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
+
+
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -358,16 +361,32 @@ public class GUI extends javax.swing.JFrame {
     
     private void jButtonSaveCountryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveCountryActionPerformed
         // TODO add your handling code here:
-      
         
-        Object[][] data = new Object[10][4];
-    int i;
-    for (i=0; i<data.length; ++i) {
-        data[i][0] = addCountryName.getText();
-        data[i][1] = jTable2.getValueAt(i, i);
-        data[i][2] = jTable2.getValueAt(i, i+1);
+        List<Criteria> indhold2;
+        indhold2 = fh.readCriteria();
+        
+        String[][] data = new String[indhold2.size()][4];
+        int i;
+        
+        for (i=0; i < indhold2.size(); ++i) {
+            
+                data[i][0] = addCountryName.getText();
+                
+                data[i][1] = jTable2.getComponentAt(i, i).toString();
+                
+                data[i][2] = jTable2.getComponentAt(i, i+1).toString();
+                
+                data[i][3] = jTable2.getComponentAt(i, i+2).toString();
+                i++;
+                
+               
+               
+                
+            
+           
 }
-        System.out.println(data[i][0]);
+        
+        
       
     
         
