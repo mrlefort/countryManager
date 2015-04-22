@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -311,6 +312,8 @@ public class GUI extends javax.swing.JFrame {
         }
         pw.close();
         
+        
+        
         try {
             try (BufferedWriter buffer = new BufferedWriter(new FileWriter(new File("criteria.txt"),true))) {
                 for(int i = 0 ; i<model1.size();i++){
@@ -325,7 +328,14 @@ public class GUI extends javax.swing.JFrame {
       
     DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
     
-    List<Criteria> indhold;
+    
+    
+    List<Criteria> indhold = new ArrayList<Criteria>();
+    fh.criteria.clear();
+    model.setRowCount(0);
+    
+    
+    
     indhold = fh.readCriteria();
     
     for (int i = 0; i < indhold.size(); i++){
@@ -343,18 +353,7 @@ public class GUI extends javax.swing.JFrame {
      *
      * @return
      */
-//    public String[][] addCountry(){
-//        String countryName = addCountryName.getText();
-//        
-//        int i = 0;
-//        
-//        country[i][0] = countryName;
-//        country[i][1] = jTable2.getModel().getValueAt(0, 0).toString();
-//        country[i][2] = jTable2.getModel().getValueAt(0, 1).toString();
-//        
-//        return country;
-//        
-//    }
+
     
     
     
@@ -362,33 +361,24 @@ public class GUI extends javax.swing.JFrame {
     private void jButtonSaveCountryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveCountryActionPerformed
         // TODO add your handling code here:
         
-        List<Criteria> indhold2;
-        indhold2 = fh.readCriteria();
-        
-        String[][] data = new String[indhold2.size()][4];
-        int i;
-        
-        for (i=0; i < indhold2.size(); ++i) {
+        List<Object[]> rows = new ArrayList<Object[]>();
+        Object[] row = new Object[3];
+        for (Object data : jTable2.getComponents()) {
             
-                data[i][0] = addCountryName.getText();
-                
-                data[i][1] = jTable2.getComponentAt(i, i).toString();
-                
-                data[i][2] = jTable2.getComponentAt(i, i+1).toString();
-                
-                data[i][3] = jTable2.getComponentAt(i, i+2).toString();
-                i++;
-                
-               
-               
-                
-            
-           
+            row[0] = addCountryName.getText();
+            row[1] = jTable2.getValueAt(0, 0);
+            row[2] = jTable2.getValueAt(1, 0);
+        
+        rows.add(row);
 }
-        
-        
-      
-    
+        for (int i = 0; i < rows.size(); i++) {
+            for (Object test : row){
+                System.out.println(test);
+            }
+            
+	    
+              
+        }
         
         
         
