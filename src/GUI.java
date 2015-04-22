@@ -374,7 +374,7 @@ public class GUI extends javax.swing.JFrame {
         HashMap<String, Double> hash = new HashMap<>();
         int i;
         String criteriaName = "";
-        double criteriaNameTest;
+
        
         
       
