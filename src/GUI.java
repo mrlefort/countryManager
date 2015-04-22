@@ -7,13 +7,14 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
-import java.util.Vector;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 
 
@@ -32,10 +33,15 @@ public class GUI extends javax.swing.JFrame {
     Control con = new Control();
     FileHandler fh = new FileHandler();
     String[][] country = new String[50][4];
+    List<Criteria> indhold = new ArrayList<Criteria>();
+    List<Countries> indhold2;         
+    DefaultTableModel model;
+
     
-    /**
+                /**
      * Creates new form GUI
      */
+    
     public GUI() {
         initComponents();
         jListCriteria.setModel(model1);
@@ -326,11 +332,11 @@ public class GUI extends javax.swing.JFrame {
             System.out.println(ex.getMessage());
     }
       
-    DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+    model = (DefaultTableModel) jTable2.getModel();
     
     
     
-    List<Criteria> indhold = new ArrayList<Criteria>();
+    
     fh.criteria.clear();
     model.setRowCount(0);
     
@@ -341,6 +347,7 @@ public class GUI extends javax.swing.JFrame {
     for (int i = 0; i < indhold.size(); i++){
         
         model.addRow(new Object[]{indhold.get(i).getName(), indhold.get(i).getWeight()});
+        System.out.println(indhold);
         
     }
            
@@ -354,6 +361,7 @@ public class GUI extends javax.swing.JFrame {
      * @return
      */
 
+  
     
     
     
@@ -361,24 +369,61 @@ public class GUI extends javax.swing.JFrame {
     private void jButtonSaveCountryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveCountryActionPerformed
         // TODO add your handling code here:
         
-        List<Object[]> rows = new ArrayList<Object[]>();
-        Object[] row = new Object[3];
-        for (Object data : jTable2.getComponents()) {
-            
-            row[0] = addCountryName.getText();
-            row[1] = jTable2.getValueAt(0, 0);
-            row[2] = jTable2.getValueAt(1, 0);
         
-        rows.add(row);
-}
-        for (int i = 0; i < rows.size(); i++) {
-            for (Object test : row){
-                System.out.println(test);
-            }
+        
+        HashMap<String, Double> hash = new HashMap<>();
+        int i;
+        String criteriaName = "";
+        double criteriaNameTest;
+       
+        
+      
+     
+        
+        
+        
+        for (i = 0; i < jTable2.getRowCount(); i++){
+            System.out.println(jTable2.getRowCount());
             
-	    
-              
+            criteriaName = jTable2.getValueAt(i, 0).toString();
+            
+            String o = jTable2.getValueAt(i, 2).toString();
+            double n = Double.parseDouble(o);
+            
+            
+            hash.put(criteriaName, n);
+            
+           
+
+            System.out.println(criteriaName);
+
         }
+	
+	
+	      
+        
+        
+        
+
+        
+        
+        
+        
+//        // printer score og lande navn til en txt fil. Skal måske flyttes til en knap hvor man gemmer sin lande liste på.
+//        try {
+//            try (BufferedWriter buffer = new BufferedWriter(new FileWriter(new File("Countries.txt"),true))) {
+//                for(int i = 0 ; i<indhold.size(); i++){
+//                    buffer.write(addCountryName.getText() + " " + jTable2.getValueAt(i, 2) + "\n");
+//                    buffer.flush();
+//                }   
+//            }
+//
+//    } catch (IOException ex) {
+//            System.out.println(ex.getMessage());
+//    }
+        
+        
+        
         
         
         
