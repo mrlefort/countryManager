@@ -383,7 +383,7 @@ public class GUI extends javax.swing.JFrame {
         
         
         for (i = 0; i < jTable2.getRowCount(); i++){
-            System.out.println(jTable2.getRowCount());
+            
             
             criteriaName = jTable2.getValueAt(i, 0).toString();
             
