@@ -391,7 +391,7 @@ public class GUI extends javax.swing.JFrame {
             
            
 
-            System.out.println(criteriaName);
+            System.out.println(hash.get(criteriaName));
 
         }
 	
