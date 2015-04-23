@@ -34,12 +34,12 @@ public class GUI extends javax.swing.JFrame {
     FileHandler fh = new FileHandler();
     String[][] country = new String[50][4];
     List<Criteria> indhold = new ArrayList<Criteria>();
-    List<Countries> indhold3 = new ArrayList<Countries>();
+    List<Countries> indhold3;
     List<Countries> indhold2;
     DefaultTableModel model;
     Map<String, Object> hashCountries = new HashMap<>();
     DefaultListModel model2 = new DefaultListModel();
-    Countries cc = new Countries();
+    Countries cc;
     Double r;
     String q;
 
@@ -57,7 +57,7 @@ public class GUI extends javax.swing.JFrame {
         for (Countries y : con.getCountries()) {
             model2.addElement(y);
             model3.addElement(y);
-            
+
         }
     }
 
@@ -351,28 +351,23 @@ public class GUI extends javax.swing.JFrame {
             String n = String.format("%s, %s", textFieldAddCriteria.getText(), j);
 
             model1.addElement(n);
-            
+
         } catch (NumberFormatException numberFormatException) {
-                errorWeight.setText("Please enter a number.");
+            errorWeight.setText("Please enter a number.");
         }
-        
-        
+
     }
-    
+
 //    public void addCountry(){
 //        String m = addCountryName.getText();
 //        model2.addElement(m);
 //        
 //    }
-    
-    
-   
-    
-    public void addCountry(){
+    public void addCountry() {
         String m = String.format("%s, %s", addCountryName.getText(), q);
-        
+
         model2.addElement(m);
-        model3.addElement(m);
+        
     }
 
 
@@ -433,12 +428,7 @@ public class GUI extends javax.swing.JFrame {
             System.out.println(indhold);
 
         }
-        
-        
 
-        
-        
-        
 
     }//GEN-LAST:event_buttonSaveActionPerformed
 
@@ -449,12 +439,7 @@ public class GUI extends javax.swing.JFrame {
 
     private void jButtonSaveCountryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveCountryActionPerformed
 
-        
-        
-        
-        
-       
-        
+        //populates map with CriteriaName and value.
         Map<String, Double> hash = new HashMap<>();
         int i;
         String criteriaName = "";
@@ -474,40 +459,39 @@ public class GUI extends javax.swing.JFrame {
             obj = jTable2.getValueAt(i, 2);
             if (obj != null) {
                 o = obj.toString();
-                double n = Double.parseDouble(o);
+                Double n = Double.parseDouble(o);
                 hash.put(criteriaName, n);
-                System.out.println(hash.get(criteriaName));
+
             } else {
 
                 errorMessage.setText(error);
             }
 
         }
-        
-        
+
+        //populates map with CountryName and total score.
         hashCountries.put(addCountryName.getText(), hash);
         Double total = 0.0;
         for (i = 0; i < jTable2.getRowCount(); i++) {
 
             Object obj = jTable2.getValueAt(i, 1);
-                Double w = new Double(obj.toString());
-                
-
+            Double w = new Double(obj.toString());
+            
             Object obj2 = jTable2.getValueAt(i, 2);
+            Double obj3 = Double.parseDouble(obj2.toString());
+                if (obj3 < 5 && obj3 >= 0){
                 Double e = new Double(obj2.toString());
+                total += w * e;
+
+                q = total.toString();
+            } else {
+                errorMessage.setText("Please enter a number 0-4.");
+                }
             
-            total += w*e;
-            
-            q = total.toString();
         }
-        
-        
-        
+
         addCountry();
-        
-        
-        
-        
+
         PrintWriter pw = null;
         try {
             pw = new PrintWriter("Countries.txt");
@@ -516,22 +500,33 @@ public class GUI extends javax.swing.JFrame {
         }
         pw.close();
 
-
-        
         try {
-            try (BufferedWriter buffer = new BufferedWriter(new FileWriter(new File("Countries.txt"),true))) {
-                for(i = 0 ; i<hashCountries.size(); i++){
-                    buffer.write(model2.elementAt(i).toString()  +"\n");
+            try (BufferedWriter buffer = new BufferedWriter(new FileWriter(new File("Countries.txt"), true))) {
+                for (i = 0; i < model2.size(); i++) {
+                    buffer.write(model2.getElementAt(i).toString() + "\n");
                     buffer.flush();
-                }   
+                }
             }
 
-    } catch (IOException ex) {
+        } catch (IOException ex) {
             System.out.println(ex.getMessage());
-    }
-        System.out.println(hashCountries.keySet());
+        }
+        
+        //vi fylder model3 med det som står i Countries.txt (fra listen countries)
+        fh.countries.clear();
+        model3.clear();
+
+        indhold2 = fh.readCountries();
+        
+        for (i = 0; i < indhold2.size(); i++) {
+
+            model3.add(i, indhold2.get(i));
+            System.out.println(indhold2);
+
+        }
         
         
+
 
     }//GEN-LAST:event_jButtonSaveCountryActionPerformed
 
@@ -539,17 +534,19 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         List selected = jListCountries.getSelectedValuesList();
 
-        
+        //Fjerner object fra model2 og model3
         String name = jListCountries.getSelectedValue().toString();
         hashCountries.remove(name);
-        System.out.println(hashCountries.keySet());
-        
+
         for (Object p : selected) {
             model2.removeElement(p);
-            model3.removeElement(p);
+            
 
         }
         
+        
+
+        //Skriver ny countries.txt fil som nu er opdateret.
         PrintWriter pw = null;
         try {
             pw = new PrintWriter("Countries.txt");
@@ -558,21 +555,31 @@ public class GUI extends javax.swing.JFrame {
         }
         pw.close();
 
-
-        
         try {
-            try (BufferedWriter buffer = new BufferedWriter(new FileWriter(new File("Countries.txt"),true))) {
-                for(int i = 0 ; i<hashCountries.size(); i++){
-                    buffer.write(model2.elementAt(i).toString()  +"\n");
+            try (BufferedWriter buffer = new BufferedWriter(new FileWriter(new File("Countries.txt"), true))) {
+                for (int i = 0; i < model2.size(); i++) {
+                    buffer.write(model2.elementAt(i).toString() + "\n");
                     buffer.flush();
-                }   
+                }
             }
 
-    } catch (IOException ex) {
+        } catch (IOException ex) {
             System.out.println(ex.getMessage());
-    }
+        }
         
+        fh.countries.clear();
+        model3.clear();
+
+        indhold3 = fh.readCountries();
         
+        for (int i = 0; i < indhold3.size(); i++) {
+
+            model3.add(i, indhold3.get(i));
+            System.out.println(indhold3);
+
+        }
+
+
     }//GEN-LAST:event_buttonRemoveCountryActionPerformed
 
     /**
