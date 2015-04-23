@@ -55,6 +55,7 @@ public class GUI extends javax.swing.JFrame {
             model1.addElement(c);
         }
         for (Countries y : con.getCountries()) {
+            model2.addElement(y);
             model3.addElement(y);
             
         }
@@ -80,6 +81,7 @@ public class GUI extends javax.swing.JFrame {
         jListCriteria = new javax.swing.JList();
         buttonRemove = new javax.swing.JButton();
         buttonSave = new javax.swing.JButton();
+        errorWeight = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -141,11 +143,13 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(addCriteria)
                     .addComponent(textFieldAddCriteria, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(37, 37, 37)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(assignWeight, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(textFieldAssignWeight)
-                    .addComponent(buttonAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(85, 85, 85)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(assignWeight, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(textFieldAssignWeight)
+                        .addComponent(buttonAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(errorWeight, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(38, 38, 38)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -171,7 +175,9 @@ public class GUI extends javax.swing.JFrame {
                                         .addGap(4, 4, 4)
                                         .addComponent(textFieldAddCriteria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(buttonAdd))
+                                .addComponent(buttonAdd)
+                                .addGap(28, 28, 28)
+                                .addComponent(errorWeight, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
@@ -339,9 +345,18 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_textFieldAddCriteriaActionPerformed
 
     public void addCriteria() {
-        String n = String.format("%s, %s", textFieldAddCriteria.getText(), textFieldAssignWeight.getText());
+        String j = textFieldAssignWeight.getText();
+        try {
+            Double u = Double.parseDouble(j);
+            String n = String.format("%s, %s", textFieldAddCriteria.getText(), j);
 
-        model1.addElement(n);
+            model1.addElement(n);
+            
+        } catch (NumberFormatException numberFormatException) {
+                errorWeight.setText("Please enter a number.");
+        }
+        
+        
     }
     
 //    public void addCountry(){
@@ -604,6 +619,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton buttonRemoveCountry;
     private javax.swing.JButton buttonSave;
     private javax.swing.JLabel errorMessage;
+    private javax.swing.JLabel errorWeight;
     private javax.swing.JButton jButtonSaveCountry;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
