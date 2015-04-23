@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,37 +17,46 @@ import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
-
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Steffen
  */
 public class GUI extends javax.swing.JFrame {
+
     DefaultListModel model1 = new DefaultListModel();
+    DefaultListModel model3 = new DefaultListModel();
     Control con = new Control();
     FileHandler fh = new FileHandler();
     String[][] country = new String[50][4];
     List<Criteria> indhold = new ArrayList<Criteria>();
-    List<Countries> indhold2;         
+    List<Countries> indhold3 = new ArrayList<Countries>();
+    List<Countries> indhold2;
     DefaultTableModel model;
+    Map<String, Object> hashCountries = new HashMap<>();
+    DefaultListModel model2 = new DefaultListModel();
+    Countries cc = new Countries();
+    Double r;
+    String q;
 
-    
-                /**
+    /**
      * Creates new form GUI
      */
-    
     public GUI() {
         initComponents();
         jListCriteria.setModel(model1);
-        for (Criteria c : con.getCriteria()){
+        jListCountries.setModel(model2);
+        jListCountryCollection.setModel(model3);
+        for (Criteria c : con.getCriteria()) {
             model1.addElement(c);
+        }
+        for (Countries y : con.getCountries()) {
+            model3.addElement(y);
+            
         }
     }
 
@@ -77,7 +87,14 @@ public class GUI extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jButtonSaveCountry = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jListCountries = new javax.swing.JList();
+        jLabel3 = new javax.swing.JLabel();
+        errorMessage = new javax.swing.JLabel();
+        buttonRemoveCountry = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jListCountryCollection = new javax.swing.JList();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -202,59 +219,106 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
+        jScrollPane2.setViewportView(jListCountries);
+
+        jLabel3.setText("Countries");
+
+        errorMessage.setForeground(new java.awt.Color(255, 0, 0));
+
+        buttonRemoveCountry.setText("Remove Country");
+        buttonRemoveCountry.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRemoveCountryActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonSaveCountry)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 557, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addComponent(jLabel2)
+                            .addGap(52, 52, 52)
+                            .addComponent(addCountryName, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addGap(22, 22, 22)
+                                    .addComponent(jLabel1))
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addGap(18, 18, 18)
+                                    .addComponent(errorMessage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(23, 23, 23))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(113, 113, 113))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(399, 399, 399)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(68, 68, 68)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 610, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButtonSaveCountry))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(52, 52, 52)
-                                .addComponent(addCountryName, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(96, Short.MAX_VALUE))
+                        .addComponent(buttonRemoveCountry)
+                        .addContainerGap())))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonSaveCountry)
+                .addContainerGap(44, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel3))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(33, 33, 33)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(addCountryName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(79, 79, 79)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(170, Short.MAX_VALUE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(36, 36, 36)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel2)
+                                    .addComponent(addCountryName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(10, 10, 10))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(errorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonSaveCountry)
+                    .addComponent(buttonRemoveCountry))
+                .addGap(46, 46, 46))
         );
 
         jTabbedPane1.addTab("Country", jPanel2);
+
+        jScrollPane4.setViewportView(jListCountryCollection);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 901, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(516, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(79, 79, 79))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 550, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 516, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("tab3", jPanel3);
+        jTabbedPane1.addTab("Country Collection", jPanel3);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -274,42 +338,53 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_textFieldAddCriteriaActionPerformed
 
-    
-    public void addCriteria(){
+    public void addCriteria() {
         String n = String.format("%s, %s", textFieldAddCriteria.getText(), textFieldAssignWeight.getText());
+
+        model1.addElement(n);
+    }
+    
+//    public void addCountry(){
+//        String m = addCountryName.getText();
+//        model2.addElement(m);
+//        
+//    }
+    
+    
+   
+    
+    public void addCountry(){
+        String m = String.format("%s, %s", addCountryName.getText(), q);
         
-        
-    model1.addElement(n);
-    }         
-    
-    
-    
+        model2.addElement(m);
+        model3.addElement(m);
+    }
+
+
     private void buttonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddActionPerformed
         // TODO add your handling code here:
         addCriteria();
         textFieldAddCriteria.setText("");
         textFieldAssignWeight.setText("");
-     
-    
-    
+
+
     }//GEN-LAST:event_buttonAddActionPerformed
 
     private void buttonRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRemoveActionPerformed
         // TODO add your handling code here:
-        
-        
+
         List selected = jListCriteria.getSelectedValuesList();
-        
-        for(Object o : selected){
+
+        for (Object o : selected) {
             model1.removeElement(o);
-            
+
         }
-          
+
     }//GEN-LAST:event_buttonRemoveActionPerformed
 
     private void buttonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveActionPerformed
         // TODO add your handling code here:
-        
+
         PrintWriter pw = null;
         try {
             pw = new PrintWriter("criteria.txt");
@@ -317,43 +392,39 @@ public class GUI extends javax.swing.JFrame {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         pw.close();
-        
-        
-        
+
         try {
-            try (BufferedWriter buffer = new BufferedWriter(new FileWriter(new File("criteria.txt"),true))) {
-                for(int i = 0 ; i<model1.size();i++){
-                    buffer.write(model1.getElementAt(i).toString()+ "\n");
+            try (BufferedWriter buffer = new BufferedWriter(new FileWriter(new File("criteria.txt"), true))) {
+                for (int i = 0; i < model1.size(); i++) {
+                    buffer.write(model1.getElementAt(i).toString() + "\n");
                     buffer.flush();
-                }   
+                }
             }
 
-    } catch (IOException ex) {
+        } catch (IOException ex) {
             System.out.println(ex.getMessage());
-    }
-      
-    model = (DefaultTableModel) jTable2.getModel();
-    
-    
-    
-    
-    fh.criteria.clear();
-    model.setRowCount(0);
-    
-    
-    
-    indhold = fh.readCriteria();
-    
-    for (int i = 0; i < indhold.size(); i++){
+        }
+
+        model = (DefaultTableModel) jTable2.getModel();
+
+        fh.criteria.clear();
+        model.setRowCount(0);
+
+        indhold = fh.readCriteria();
+
+        for (int i = 0; i < indhold.size(); i++) {
+
+            model.addRow(new Object[]{indhold.get(i).getName(), indhold.get(i).getWeight()});
+            System.out.println(indhold);
+
+        }
         
-        model.addRow(new Object[]{indhold.get(i).getName(), indhold.get(i).getWeight()});
-        System.out.println(indhold);
         
-    }
-           
+
         
         
         
+
     }//GEN-LAST:event_buttonSaveActionPerformed
 
     /**
@@ -361,69 +432,133 @@ public class GUI extends javax.swing.JFrame {
      * @return
      */
 
-  
-    
-    
-    
-    
     private void jButtonSaveCountryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveCountryActionPerformed
-        // TODO add your handling code here:
+
         
         
         
-        HashMap<String, Double> hash = new HashMap<>();
+        
+       
+        
+        Map<String, Double> hash = new HashMap<>();
         int i;
         String criteriaName = "";
+        String o;
+        String error = "Please type in a number";
 
-       
-      
-        
-        for (i = 0; i < jTable2.getRowCount(); i++){
-            
-            
-            criteriaName = jTable2.getValueAt(i, 0).toString();
-            
-            String o = jTable2.getValueAt(i, 2).toString();
-            double n = Double.parseDouble(o);
-            
-            
-            hash.put(criteriaName, n);
-            
-           
+        for (i = 0; i < jTable2.getRowCount(); i++) {
 
-            System.out.println(hash.get(criteriaName));
+            Object obj = jTable2.getValueAt(i, 0);
+            if (obj != null) {
+                criteriaName = obj.toString();
+            } else {
+                errorMessage.setText("Criteria missing.");
+
+            }
+
+            obj = jTable2.getValueAt(i, 2);
+            if (obj != null) {
+                o = obj.toString();
+                double n = Double.parseDouble(o);
+                hash.put(criteriaName, n);
+                System.out.println(hash.get(criteriaName));
+            } else {
+
+                errorMessage.setText(error);
+            }
 
         }
-	
-	
-	      
         
+        
+        hashCountries.put(addCountryName.getText(), hash);
+        Double total = 0.0;
+        for (i = 0; i < jTable2.getRowCount(); i++) {
+
+            Object obj = jTable2.getValueAt(i, 1);
+                Double w = new Double(obj.toString());
+                
+
+            Object obj2 = jTable2.getValueAt(i, 2);
+                Double e = new Double(obj2.toString());
+            
+            total += w*e;
+            
+            q = total.toString();
+        }
+        
+        
+        
+        addCountry();
+        
+        
+        
+        
+        PrintWriter pw = null;
+        try {
+            pw = new PrintWriter("Countries.txt");
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        pw.close();
+
+
+        
+        try {
+            try (BufferedWriter buffer = new BufferedWriter(new FileWriter(new File("Countries.txt"),true))) {
+                for(i = 0 ; i<hashCountries.size(); i++){
+                    buffer.write(model2.elementAt(i).toString()  +"\n");
+                    buffer.flush();
+                }   
+            }
+
+    } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+    }
+        System.out.println(hashCountries.keySet());
         
         
 
-        
-        
-        
-        
-//        // printer score og lande navn til en txt fil. Skal måske flyttes til en knap hvor man gemmer sin lande liste på.
-//        try {
-//            try (BufferedWriter buffer = new BufferedWriter(new FileWriter(new File("Countries.txt"),true))) {
-//                for(int i = 0 ; i<indhold.size(); i++){
-//                    buffer.write(addCountryName.getText() + " " + jTable2.getValueAt(i, 2) + "\n");
-//                    buffer.flush();
-//                }   
-//            }
-//
-//    } catch (IOException ex) {
-//            System.out.println(ex.getMessage());
-//    }
-        
-        
-        
-        
-        
-        
     }//GEN-LAST:event_jButtonSaveCountryActionPerformed
+
+    private void buttonRemoveCountryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRemoveCountryActionPerformed
+        // TODO add your handling code here:
+        List selected = jListCountries.getSelectedValuesList();
+
+        
+        String name = jListCountries.getSelectedValue().toString();
+        hashCountries.remove(name);
+        System.out.println(hashCountries.keySet());
+        
+        for (Object p : selected) {
+            model2.removeElement(p);
+            model3.removeElement(p);
+
+        }
+        
+        PrintWriter pw = null;
+        try {
+            pw = new PrintWriter("Countries.txt");
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        pw.close();
+
+
+        
+        try {
+            try (BufferedWriter buffer = new BufferedWriter(new FileWriter(new File("Countries.txt"),true))) {
+                for(int i = 0 ; i<hashCountries.size(); i++){
+                    buffer.write(model2.elementAt(i).toString()  +"\n");
+                    buffer.flush();
+                }   
+            }
+
+    } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+    }
+        
+        
+    }//GEN-LAST:event_buttonRemoveCountryActionPerformed
 
     /**
      * @param args the command line arguments
@@ -466,16 +601,23 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel assignWeight;
     private javax.swing.JButton buttonAdd;
     private javax.swing.JButton buttonRemove;
+    private javax.swing.JButton buttonRemoveCountry;
     private javax.swing.JButton buttonSave;
+    private javax.swing.JLabel errorMessage;
     private javax.swing.JButton jButtonSaveCountry;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JList jListCountries;
+    private javax.swing.JList jListCountryCollection;
     private javax.swing.JList jListCriteria;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField textFieldAddCriteria;
