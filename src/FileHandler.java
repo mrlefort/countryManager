@@ -2,6 +2,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -19,11 +20,19 @@ import java.util.logging.Logger;
  */
 public class FileHandler {
     List<Criteria> criteria;
+    List<Country> countries;
+
+
+
     
     String[] stumper;
     
-    public FileHandler(){
+    Double score;
+
+    
+    public FileHandler (){
         criteria = new ArrayList();
+        countries = new ArrayList();
         
        
         
@@ -59,34 +68,38 @@ public class FileHandler {
         
     }
     
-//    public String[] getStumper() {
-//        
-//        try {
-//            Scanner scan = new Scanner(new File("Criteria.txt"));
-//            while (scan.hasNext()){
-//                String line = scan.nextLine();
-//                
-//                String[] stumper = line.split(", ");
-//                String name = stumper[0];
-//                String weight = stumper[1];
-//                
-//                Criteria p = new Criteria(name, weight);
-//                stumper.add(p);
-//                
-//                
-//              
-//            
-//            }
-//            
-//            
-//        } catch (FileNotFoundException ex) {
-//            Logger.getLogger(FileHandler.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        System.out.println(stumper);
-//        return stumper;
-//        
-//        
-//    }
+    
+    public List<Country> readCountries() {
+        try {
+            Scanner scan = new Scanner(new File("Countries.txt"));
+            while (scan.hasNext()){
+                String line = scan.nextLine();
+                
+                String[] stumper2 = line.split(", ");
+                String name = stumper2[0];
+                score = Double.parseDouble(stumper2[1]);
+                
+                Country p = new Country(name, score);
+                countries.add(p);
+                
+                
+            
+            }
+           
+        } catch (FileNotFoundException ex) {
+            System.out.println(ex.getMessage());
+        } 
+        
+        return countries;
+        
+    }
+  
+    
+    
+//  
+
+  
+
            
       
         

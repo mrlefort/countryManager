@@ -15,15 +15,30 @@ import java.util.List;
  *
  * @author Steffen
  */
-public class Countries {
+public class Country implements Comparable<Country>{
     
     private String country;
+    private Double score;
+
+
+
     
     
 
-    public Countries(String country) {
+    public Country(String country, Double score) {
         this.country = country;
+        this.score = score;
     }
+
+    public Double getScore() {
+        return score;
+    }
+
+    public void setScore(Double score) {
+        this.score = score;
+    }
+    
+ 
 
     public String getCountry() {
         return country;
@@ -32,8 +47,24 @@ public class Countries {
     public void setCountry(String country) {
         this.country = country;
     }
+   
+
+    @Override
+    public int compareTo(Country comparecon) {
+        Double comp = comparecon.getScore();
+
+        return (int) (this.score-comp);
+        
+    }
+
     
     
+   
+    @Override
+    public String toString() {
+        return String.format("%s, %s", country, score);
+    }
+
     
-    
+ 
 }

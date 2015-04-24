@@ -1,1 +1,3 @@
-test, 5
+Økonomi, 4
+Turisme, 3
+Politik, 7

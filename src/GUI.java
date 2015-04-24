@@ -34,12 +34,12 @@ public class GUI extends javax.swing.JFrame {
     FileHandler fh = new FileHandler();
     String[][] country = new String[50][4];
     List<Criteria> indhold = new ArrayList<Criteria>();
-    List<Countries> indhold3;
-    List<Countries> indhold2;
+    List<Country> indhold3;
+    List<Country> indhold2;
     DefaultTableModel model;
     Map<String, Object> hashCountries = new HashMap<>();
     DefaultListModel model2 = new DefaultListModel();
-    Countries cc;
+    Country cc;
     Double r;
     String q;
 
@@ -54,7 +54,7 @@ public class GUI extends javax.swing.JFrame {
         for (Criteria c : con.getCriteria()) {
             model1.addElement(c);
         }
-        for (Countries y : con.getCountries()) {
+        for (Country y : con.getCountries()) {
             model2.addElement(y);
             model3.addElement(y);
 
@@ -571,6 +571,7 @@ public class GUI extends javax.swing.JFrame {
         model3.clear();
 
         indhold3 = fh.readCountries();
+        
         
         for (int i = 0; i < indhold3.size(); i++) {
 

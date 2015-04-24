@@ -18,4 +18,7 @@ public class Control {
     public List<Criteria> getCriteria() {
         return fh.readCriteria();
     }
+    public List<Country> getCountries() {
+        return fh.readCountries();
+    }
 }
